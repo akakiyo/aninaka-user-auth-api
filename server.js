@@ -2,11 +2,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-// const newLocal = {
-//   origin: "https://aninaka-fcd16.web.app/",
-// };
-// const corsOptions = newLocal;
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
