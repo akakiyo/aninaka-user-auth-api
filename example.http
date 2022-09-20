@@ -11,13 +11,9 @@ content-type: application/json
 
 ###
 
-GET http://localhost:8080/login
-content-type: application/json
+GET http://localhost:8080/login?emailAddress=te@st.com&password=admin1234
 
-{
-    "email_address":"te@st.com",
-    "password":"aaaaaa"
-}
+
 ###
 
 GET http://localhost:8080/healthz

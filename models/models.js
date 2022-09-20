@@ -21,6 +21,11 @@ const users = sequelize.define("users", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  login_status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 });
 
 module.exports = {

@@ -9,12 +9,13 @@ router.post("/", async (req, res, next) => {
     await sequelize.sync();
     //ユーザの新規登録の処理
     await sequelize.transaction(async (trn) => {
-      const { user_name, email_address, password } = req.body;
-      await users.sync({ force: true });
+      const { userName, emailAddress, password } = req.body;
+      console.log(userName, emailAddress, password);
+      await users.sync();
       await users.create(
         {
-          user_name,
-          email_address,
+          user_name: userName,
+          email_address: emailAddress,
           password,
         },
         {

@@ -1,9 +1,10 @@
 const express = require("express");
 const sequelize = require("../sequelize");
+const jwtHelper = require("../helper/jwtHelper");
 
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", jwtHelper.verifyToken, async (req, res, next) => {
   try {
     console.log("healthz");
     res.json("goods");

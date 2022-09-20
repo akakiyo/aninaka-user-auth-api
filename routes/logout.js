@@ -4,7 +4,7 @@ const sequelize = require("../sequelize");
 
 const router = express.Router();
 
-router.post("/", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     res.end();
   } catch (err) {
