@@ -1,6 +1,6 @@
 
 
-POST http://localhost:8080/signup
+POST http://localhost:8081/signup
 content-type: application/json
 
 {
@@ -11,15 +11,12 @@ content-type: application/json
 
 ###
 
-GET http://localhost:8080/login?emailAddress=te@st.com&password=admin1234
+GET http://localhost:8081/login?emailAddress=te@st.com&password=admin1234
 
 
 ###
 
-GET http://localhost:8080/healthz
-Content-Type: application/xml
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2MzcyMDg0NSwiZXhwIjoxNjYzNzI0NDQ1fQ.XrfDJzl0ZbmBSaH3pwmIvXmi_ZXc3qJrHf7IegTslzc
-
+GET http://localhost:8081/healthz
 
 ###
 
