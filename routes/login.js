@@ -9,24 +9,19 @@ router.get("/", async (req, res, next) => {
   try {
     //ユーザの新規登録の処理
     const { emailAddress, password } = req.query;
-    console.log(emailAddress);
-    const userName = (
+    const userInfo = (
       await sequelize.query(
-        `SELECT user_name FROM USERS WHERE email_address = (?) AND password = (?)`,
+        `SELECT user_name,id FROM USERS WHERE email_address = (?) AND password = (?)`,
         {
           replacements: [emailAddress, password],
         }
       )
-    )[0];
-    console.log(userName);
-    if (userName.length === 1) {
-      const token = jwtHelper.createToken(userName);
-      console.log(token);
-      res.json({ userName, token });
-    } else if (userName.length === 0) {
-      res.json("ログインに失敗しました");
+    )[0][0];
+    if (userInfo) {
+      const token = jwtHelper.createToken(userInfo["id"]);
+      res.json({ userInfo, token });
     } else {
-      res.json("予期せぬエラー");
+      res.json("認証失敗");
     }
   } catch (err) {
     next(err);

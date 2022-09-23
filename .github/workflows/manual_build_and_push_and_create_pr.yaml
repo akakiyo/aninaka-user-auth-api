@@ -1,0 +1,34 @@
+name: manual build and push and create pr
+
+on:
+  workflow_dispatch:
+    inputs:
+      targetEnv:
+        type: choice
+        description: デプロイする環境
+        options:
+          - staging
+          - production
+
+env:
+  AWS_ACCOUNT_ID: 647974632916
+  AWS_REGION: ap-northeaset-1
+  ECR_REPOSITORY: prod-aninaka
+  K8S_MANIFESTS_REPO: akakiyo/k8s-aninaka-user-auth-api-manifests
+  DOCKER_FILE_PAT: Dockerfile
+  TARGET_ENV: ${{inputs.targetEnv}}
+
+jobs:
+  build_and_push:
+    name: docker build and push
+    runs-on: ubuntu-lates
+    steps:
+      - name: checkout target branch
+        uses: actions/checkout@v3
+      - name: checkout actions repo
+        uses: actions/checkout@v3
+        with:
+          repository: akakiyo/ki-github-actions-for-k8s
+          ref: main
+          token: ${{ secrets.AKAKIYODEV_PAT }}
+          path: ./.github/actions/ki-github-actions-for-k8s/image_build/v1
