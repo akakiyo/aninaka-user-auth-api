@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  app:
+    container_name: "aninaka-user-auth-api"
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    volumes:
+      - ./:/app
+    ports:
+      - "8081:${PORT:-8081}"
+    environment:
+      PORT: ${PORT:-8081}
+      TZ: Asia/Tokyo
+    tty: true
+    stdin_open: true
