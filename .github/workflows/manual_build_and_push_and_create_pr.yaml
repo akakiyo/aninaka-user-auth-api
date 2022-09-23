@@ -12,16 +12,16 @@ on:
 
 env:
   AWS_ACCOUNT_ID: 647974632916
-  AWS_REGION: ap-northeaset-1
-  ECR_REPOSITORY: prod-aninaka
-  K8S_MANIFESTS_REPO: akakiyo/k8s-aninaka-user-auth-api-manifests
+  AWS_REGION: ap-northeast-1
+  ECR_REPOSITORY: kiyos
+  K8S_MANIFESTS_REPO: akakiyo/k8s-kiyos-manifests
   DOCKER_FILE_PAT: Dockerfile
   TARGET_ENV: ${{inputs.targetEnv}}
 
 jobs:
   build_and_push:
     name: docker build and push
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     steps:
       - name: checkout target branch
         uses: actions/checkout@v3
@@ -30,5 +30,25 @@ jobs:
         with:
           repository: akakiyo/ki-github-actions-for-k8s
           ref: main
-          token: ${{ secrets.AKAKIYODEV_PAT }}
-          path: ./.github/actions/ki-github-actions-for-k8s/image_build/v1
+          token: ${{ secrets.AKAKIYODEV_PAT}}
+          path: ./.github/actions/ki-github-actions-for-k8s
+      - name: build and push
+        id: build-and-push
+        uses: ./.github/actions/ki-github-actions-for-k8s/image_build/v1
+        with:
+          aws-account-id: ${{ env.AWS_ACCOUNT_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          ecr-repository-name: ${{ env.ECR_REPOSITORY }}
+          github-personal-access-token: ${{ secrets.AKAKIYODEV_PAT }}
+          dockerfile-path: ${{ env.DOCKER_FILE_PATH }}
+      - name: create pullrequest
+        id: create-pullrequest
+        uses: ./.github/actions/ki-github-actions-for-k8s/pullrequest_manifest/v1
+        with:
+          k8s-manifest-repository-name: ${{ env.K8S_MANIFESTS_REPO }}
+          container-image-name: ${{ env.ECR_REPOSITORY }}
+          container-image-tag: ${{ steps.build-and-push.outputs.image-tag }}
+          overlays-path: "overlays/${{ env.TARGET_ENV }}"
+          github-personal-access-token: ${{ secrets.AKAKIYODEV_PAT }}
