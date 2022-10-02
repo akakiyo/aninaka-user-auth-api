@@ -24,3 +24,34 @@ GET http://localhost:8080/verify
 Content-Type: application/xml
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2MzgwNTg3MCwiZXhwIjoxNjYzODA5NDcwfQ.qjdx9jaD47_JD4q1BNoRzzDlz3BePBf5_RN82q7HTXU
 
+###
+
+POST http://34.97.177.185/signup
+Content-Type: application/json
+Host: user-auth.aninaka-api.com
+
+{
+    "userName":"kiyo",
+    "emailAddress":"te@st.com",
+    "password":"aaaaaa"
+}
+
+###
+
+GET http://34.97.177.185/anime
+Host: anime.aninaka-api.com
+
+###
+
+GET http://34.97.177.185/login?emailAddress=te@st.com&password=aaaaaa
+Host: user-auth.aninaka-api.com
+
+###
+GET http://34.97.177.185/
+Host: user-auth.aninaka-api.com
+
+
+
+###
+GET http://aninaka-api.net/
+Host: user-auth.aninaka-api.com
