@@ -32,7 +32,7 @@ jobs:
           path: ./.github/actions/ki-github-actions-for-k8s
       - name: build and push
         id: build-and-push
-        uses: ./.github/actions/ki-github-actions-for-k8s/image_build/v2
+        uses: ./.github/actions/ki-github-actions-for-k8s/image_build/GCR/v1
         with:
           gcr-service-account-email: ${{ secrets.GCR_SERVICE_ACCOUNT_EMAIL }}
           gcr-secret-access-key: ${{ secrets.GCR_SECRET_ACCESS_KEY }}
