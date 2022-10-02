@@ -35,12 +35,10 @@ jobs:
         uses: ./.github/actions/ki-github-actions-for-k8s/image_build/GCR/v1
         with:
           gcr-service-account-email: ${{ secrets.GCR_SERVICE_ACCOUNT_EMAIL }}
-          gcr-access-key-id: ${{ secrets.GCR_ACCESS_KEY_ID }}
           gcr-secret-access-key: ${{ secrets.GCR_SECRET_ACCESS_KEY }}
           gcr-region: ${{ secrets.GCR_REGION }}
+          gcr-project-id: ${{ secrets.GCR_PROJECT_ID }}
           gcr-repository-name: ${{ env.GCR_REPOSITORY }}
-          github-personal-access-token: ${{ secrets.AKAKIYODEV_PAT }}
-          dockerfile-path: ${{ env.DOCKER_FILE_PATH }}
       - name: create pullrequest
         id: create-pullrequest
         uses: ./.github/actions/ki-github-actions-for-k8s/pullrequest_manifest/v2
