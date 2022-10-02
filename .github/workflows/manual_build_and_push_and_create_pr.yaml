@@ -46,5 +46,8 @@ jobs:
           k8s-manifest-repository-name: ${{ env.K8S_MANIFESTS_REPO }}
           container-image-name: ${{ env.GCR_REPOSITORY }}
           container-image-tag: ${{ steps.build-and-push.outputs.image-tag }}
-          overlays-path: "./"
           github-personal-access-token: ${{ secrets.AKAKIYODEV_PAT }}
+          overlays-path: "./"
+          gcr-region: ${{ secrets.GCR_REGION }}
+          gcr-project-id: ${{ secrets.GCR_PROJECT_ID }}
+          gcr-repository-name: ${{ env.GCR_REPOSITORY }}
