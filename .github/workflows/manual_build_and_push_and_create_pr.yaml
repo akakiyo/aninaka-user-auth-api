@@ -43,7 +43,7 @@ jobs:
           dockerfile-path: ${{ env.DOCKER_FILE_PATH }}
       - name: create pullrequest
         id: create-pullrequest
-        uses: ./.github/actions/ki-github-actions-for-k8s/pullrequest_manifest/v1
+        uses: ./.github/actions/ki-github-actions-for-k8s/pullrequest_manifest/v2
         with:
           k8s-manifest-repository-name: ${{ env.K8S_MANIFESTS_REPO }}
           container-image-name: ${{ env.GCR_REPOSITORY }}
