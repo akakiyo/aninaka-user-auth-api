@@ -30,15 +30,15 @@ jobs:
           ref: main
           token: ${{ secrets.AKAKIYODEV_PAT}}
           path: ./.github/actions/ki-github-actions-for-k8s
-      - name: build and push
-        id: build-and-push
-        uses: ./.github/actions/ki-github-actions-for-k8s/image_build/GCR/v1
-        with:
-          gcr-service-account-email: ${{ secrets.GCR_SERVICE_ACCOUNT_EMAIL }}
-          gcr-secret-access-key: ${{ secrets.GCR_SECRET_ACCESS_KEY }}
-          gcr-region: ${{ secrets.GCR_REGION }}
-          gcr-project-id: ${{ secrets.GCR_PROJECT_ID }}
-          gcr-repository-name: ${{ env.GCR_REPOSITORY }}
+      # - name: build and push
+      #   id: build-and-push
+      #   uses: ./.github/actions/ki-github-actions-for-k8s/image_build/GCR/v1
+      #   with:
+      #     gcr-service-account-email: ${{ secrets.GCR_SERVICE_ACCOUNT_EMAIL }}
+      #     gcr-secret-access-key: ${{ secrets.GCR_SECRET_ACCESS_KEY }}
+      #     gcr-region: ${{ secrets.GCR_REGION }}
+      #     gcr-project-id: ${{ secrets.GCR_PROJECT_ID }}
+      #     gcr-repository-name: ${{ env.GCR_REPOSITORY }}
       - name: create pullrequest
         id: create-pullrequest
         uses: ./.github/actions/ki-github-actions-for-k8s/pullrequest_manifest/v2
