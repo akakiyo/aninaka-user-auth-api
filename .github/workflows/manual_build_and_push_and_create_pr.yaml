@@ -20,11 +20,11 @@ jobs:
       - name: create GIT_TAG
         run: echo "GIT_TAG="production-$(git rev-parse --short HEAD)"" >> $GITHUB_ENV
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:${env.GIT_TAG} .
+        run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:${{ env.GIT_TAG }} .
 
       - name: Configure Docker Client
         run: |-
           gcloud auth configure-docker --quiet
       - name: Push Docker Image to Container Registry (GCR)
         run: |-
-          docker push ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:${env.GIT_TAG}
+          docker push ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:${{ env.GIT_TAG }}
