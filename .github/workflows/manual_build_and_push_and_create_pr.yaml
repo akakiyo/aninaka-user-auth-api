@@ -83,7 +83,7 @@ jobs:
         env:
           GIT_TAG: v0.1.0
         run: |-
-          docker tag $IMAGE_NAME:latest ${{ secrets.PROJECT_ID }}/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:latest
           docker tag $IMAGE_NAME:latest ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG
           docker push ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:latest
           docker push ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG
