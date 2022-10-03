@@ -1,57 +1,3 @@
-# name: manual build and push and create pr
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       targetEnv:
-#         type: choice
-#         description: デプロイする環境
-#         options:
-#           - staging
-#           - production
-
-# env:
-#   GCR_REPOSITORY: aninaka-user-auth-api
-#   K8S_MANIFESTS_REPO: akakiyo/k8s-aninaka-user-auth-api-manifests
-#   DOCKER_FILE_PAT: Dockerfile
-#   TARGET_ENV: ${{inputs.targetEnv}}
-
-# jobs:
-#   build_and_push:
-#     name: docker build and push
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: checkout target branch
-#         uses: actions/checkout@v3
-#       - name: checkout actions repo
-#         uses: actions/checkout@v3
-#         with:
-#           repository: akakiyo/ki-github-actions-for-k8s
-#           ref: main
-#           token: ${{ secrets.AKAKIYODEV_PAT}}
-#           path: ./.github/actions/ki-github-actions-for-k8s
-#       - name: build and push
-#         id: build-and-push
-#         uses: ./.github/actions/ki-github-actions-for-k8s/image_build/GCR/v1
-#         with:
-#           gcr-service-account-email: ${{ secrets.GCR_SERVICE_ACCOUNT_EMAIL }}
-#           gcr-secret-access-key: ${{ secrets.GCR_SECRET_ACCESS_KEY }}
-#           gcr-region: ${{ secrets.GCR_REGION }}
-#           gcr-project-id: ${{ secrets.GCR_PROJECT_ID }}
-#           gcr-repository-name: ${{ env.GCR_REPOSITORY }}
-#       - name: create pullrequest
-#         id: create-pullrequest
-#         uses: ./.github/actions/ki-github-actions-for-k8s/pullrequest_manifest/v2
-#         with:
-#           k8s-manifest-repository-name: ${{ env.K8S_MANIFESTS_REPO }}
-#           container-image-name: ${{ env.GCR_REPOSITORY }}
-#           container-image-tag: ${{ steps.build-and-push.outputs.image-tag }}
-#           github-personal-access-token: ${{ secrets.AKAKIYODEV_PAT }}
-#           overlays-path: "./"
-#           gcr-region: ${{ secrets.GCR_REGION }}
-#           gcr-project-id: ${{ secrets.GCR_PROJECT_ID }}
-#           gcr-repository-name: ${{ env.GCR_REPOSITORY }}
-
 name: Build and Push Image to Google Cloud Platfrom
 on:
   push:
@@ -62,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: aninaka-user-auth-api
-      GIT_TAG: v0.1.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -72,14 +17,14 @@ jobs:
           service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
           project_id: ${{ secrets.GCR_PROJECT_ID }}
           export_default_credentials: true
-
+      - name: create GIT_TAG
+        runs: echo "production-$(git rev-parse --short HEAD)"" >> $GIT_TAG
       - name: Build Docker Image
         run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG .
 
       - name: Configure Docker Client
         run: |-
           gcloud auth configure-docker --quiet
-
       - name: Push Docker Image to Container Registry (GCR)
         run: |-
           docker push ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG
