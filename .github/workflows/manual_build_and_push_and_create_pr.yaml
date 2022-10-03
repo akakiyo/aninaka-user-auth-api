@@ -74,7 +74,7 @@ jobs:
           export_default_credentials: true
 
       - name: Build Docker Image
-        run: docker build -t ${{ inputs.gcr-region }}/${{ inputs.gcr-project-id }}/${{ inputs.gcr-repository-name }}:$GIT_TAG .
+        run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG .
 
       - name: Configure Docker Client
         run: |-
