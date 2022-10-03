@@ -70,11 +70,11 @@ jobs:
       - uses: google-github-actions/setup-gcloud@main
         with:
           service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-          project_id: ${{ secrets.PROJECT_ID }}
+          project_id: ${{ secrets.GCR_PROJECT_ID }}
           export_default_credentials: true
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG .
+        run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG .
 
       - name: Configure Docker Client
         run: |-
@@ -82,4 +82,4 @@ jobs:
 
       - name: Push Docker Image to Container Registry (GCR)
         run: |-
-          docker push ${{ secrets.GCR_REGION }}/${{ secrets.PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG
+          docker push ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG
