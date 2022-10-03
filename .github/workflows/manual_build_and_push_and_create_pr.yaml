@@ -18,7 +18,7 @@ jobs:
           project_id: ${{ secrets.GCR_PROJECT_ID }}
           export_default_credentials: true
       - name: create GIT_TAG
-        runs: echo "production-$(git rev-parse --short HEAD)"" >> $GIT_TAG
+        run: echo "production-$(git rev-parse --short HEAD)"" >> $GIT_TAG
       - name: Build Docker Image
         run: docker build -t ${{ secrets.GCR_REGION }}/${{ secrets.GCR_PROJECT_ID }}/$IMAGE_NAME:$GIT_TAG .
 
